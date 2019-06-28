@@ -72,49 +72,53 @@ class JobSeeker {
     /**
      * Assert #7
      */
-//    public function someName($arg) {
-//        return new class((is_callable($this) ? $this() : 0) + $arg) extends JobSeeker {
-//
-//            protected $arg = 0;
-//
-//            public function someName() {
-//                return $this->arg;
-//            }
-//
-//            public function someName($arg) {
-//                $this->arg = $arg;
-//            }
-//        };
-//    }
-//
-//    /**
-//     * Assert #8
-//     */
-//    public function questLabyrinth(int $length, ...$map): bool {
-//        $path = 'path';
-//        $linesCount = count($map);
-//        foreach ($map as &$line) {
-//            $line = str_split(str_pad(decbin($line), $length, '0', STR_PAD_LEFT));
-//            foreach ($line as &$cell) {
-//                $cell = (int)$cell + 1;
-//            }
-//        }
-//
-//        $x = 0;
-//        $y = 0;
-//        $i = 0;
-//        while (
-//            $y >= 0
-//            && $y < $linesCount
-//            && $x < $length
-//            && $map[$y][$x] === 1
-//            && $i < strlen($path)
-//        ) {
-//            $moveY = $map[$y][$x] <=> $path[$i++];
-//            $x += $moveY === 0 ? 1 : 0;
-//            $y += $moveY;
-//        }
-//
-//        return $x === $length - 1 && $y === $linesCount - 1;
-//    }
+    public function __get($arg) {
+        return new class((is_callable($this) ? $this() : 0) + $arg) extends JobSeeker {
+
+            protected $arg = 0;
+
+            public function __invoke() {
+                return $this->arg;
+            }
+
+            public function __construct($arg) {
+                $this->arg = $arg;
+            }
+        };
+    }
+
+    /**
+     * @param int $length
+     * @param mixed ...$map
+     * @return mixed
+     */
+    public function questLabyrinth(int $length, ...$map) {
+        $path = '100110201111222111001101';// replace path
+        $linesCount = count($map);
+        foreach ($map as &$line) {
+            $line = str_split(str_pad(decbin($line), $length, '0', STR_PAD_LEFT));
+            foreach ($line as &$cell) {
+                $cell = (int)$cell + 1;
+            }
+        }
+
+//        return $map;
+
+        $x = 0;
+        $y = 0;
+        $i = 0;
+        while (
+            $y >= 0
+            && $y < $linesCount
+            && $x < $length
+            && $map[$y][$x] === 1
+            && $i < strlen($path)
+        ) {
+            $moveY = $map[$y][$x] <=> $path[$i++];
+            $x += $moveY === 0 ? 1 : 0;
+            $y += $moveY;
+        }
+
+        return $x === $length - 1 && $y === $linesCount - 1;
+    }
 }
